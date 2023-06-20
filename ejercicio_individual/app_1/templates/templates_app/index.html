@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Mis Tareapps - Home {% endblock %}
+
+{% block contenido %}
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mx-3 border-0 bg-transparent">
+                <div class="card-header border-bottom border-3">
+                    <h3 class="card-title fw-bold text-center text-white"
+                        style="font-family: 'Roboto Condensed', sans-serif;">¡Bienvenid@ a Mis Tareapps!</h3>
+                </div>
+                <div class="card-body text-justify">
+                    <p class="card-text text-white fs-5"
+                        style="text-indent: 30px; font-family: 'Roboto Condensed', sans-serif; text-align: justify;">
+                        La aplicación de organización de tareas que necesitas. Estamos encantados de tenerte a bordo y
+                        ayudarte a mantener tus tareas organizadas y realizar un seguimiento efectivo de tus
+                        actividades. Con nuestra aplicación intuitiva y fácil de usar, podrás administrar tus tareas de
+                        manera eficiente y maximizar tu productividad. Nos encontramos en constante aprendizaje y día a
+                        día
+                        esperamos poder incorporar más y más funcionalidad par ahacer más fácil y grata tu experiencia.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="container-fluid">
+                <img class="img-fluid me-5 my-5 rounded-4" src="{% static 'img/img_portada.webp' %}"
+                    alt="img_portada">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
