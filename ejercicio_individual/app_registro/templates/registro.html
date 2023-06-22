@@ -33,30 +33,8 @@
               <label for="email">Email:</label>
               <input type="email" class="form-control" id="email" placeholder="email@ejemplo.com" name="email" required>
             </div>
-            <div class="form-group">
-              <label for="grupo">Grupo de usuario:</label>
-              <select class="form-control" id="grupo" name="grupo">
-                {% if user.is_superuser %}
-                {% for grupo in grupos %}
-                <option value="{{ grupo.id }}">{{ grupo.name }}</option>
-                {% endfor %}
-                {% elif user.is_active and user.is_staff %}
-                {% for grupo in grupos %}
-                {% if grupo.id != 6 %}
-                <option value="{{ grupo.id }}">{{ grupo.name }}</option>
-                {% endif %}
-                {% endfor %}
-                {% elif user.is_active %}
-                {% for grupo in grupos %}
-                {% if grupo.id == 8 %}
-                <option value="{{ grupo.id }}">{{ grupo.name }}</option>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-              </select>
-            </div>
-            <div>
-              <input type="submit" class="btn btn-success btn-block" value="Registrar">
+            <div class="text-center">
+              <input type="submit" class="btn btn-primary my-4" value="Registrar">
             </div>
           </form>
           {% if error %}

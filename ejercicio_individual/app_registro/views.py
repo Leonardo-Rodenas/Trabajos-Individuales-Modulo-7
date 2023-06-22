@@ -39,7 +39,7 @@ def registrar_usuario(request):
             user.groups.add(grupo)
 
         # Redirecciona a una página de éxito o cualquier otra página deseada
-        return redirect('registro')
+        return redirect('login')
 
     # Si es una solicitud GET, muestra el formulario de registro con el select de grupos
     return render(request, 'registro.html', {'grupos': grupos})
