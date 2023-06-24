@@ -1,0 +1,18 @@
+<h1>mi lista de tareas</h1>
+
+<table>
+    <tr>
+        <th> Item </th>
+        <th></th>
+    </tr>
+{% for tarea in Tareas %}
+<tr>
+    <td> {{ tarea.titulo}} </td>
+    <td>
+        <a href="{% url 'detalle_tarea' tarea.id %}">Ver</a>
+    </td>
+</tr>
+{% empty%}
+<h3>Sin tareas registradas</h3>
+{% endfor %}
+</table>
