@@ -7,7 +7,7 @@ from .forms import LoginForm
 from .models import Tarea
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 # Create your views here.
 
@@ -32,7 +32,7 @@ class IngresoView(TemplateView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('tareas_usuario')
+                    return redirect('lista_tareas')
             form.add_error('username', 'Credenciales incorrectas')
             return render(request, self.template_name, {"form": form})
         else:
@@ -46,17 +46,26 @@ def logout_user(request):
 
 #Renderiza Tareas
 class ListaTareas(ListView):
-    model = Tarea
-    context_object_name = 'Tareas'
-    template_name = 'templates_app/app_1/lista_tareas.html'
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tareas' # Le da un nuevo nombre en el for para que no se llame simplemente object
+    template_name = 'templates_app/app_1/lista_tareas.html' # modifica la ruta el template para que no sea necesario que se llame tarea_list.html (prefijo = modelo, sufijo=list, así lo busca por defecto al usar estas clases heredadas)
 
 class DetalleTarea(DetailView):
-    model = Tarea
-    context_object_name = 'Tarea'
-    template_name = 'templates_app/app_1/detalle_tarea.html'
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
+    template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
 
 class CrearTarea(CreateView):
-     model = Tarea
-     field = '__all__' # Crea todos los campos para el formulario a partir del modelo
+     model = Tarea # Modelo a utilizar
+     fields = '__all__' # Crea todos los campos para el formulario a partir del modelo
      success_url = reverse_lazy('lista_tareas') # Al tener exito al crear la tarea redirigir a lista_tareas
-     
+
+class ActualizarTarea(UpdateView):
+     model = Tarea # Modelo a utilizar
+     fields = '__all__' # Crea todos los campos para el formulario a partir del modelo
+     success_url = reverse_lazy('lista_tareas') # Al tener exito al actualizar la tarea redirigir a lista_tareas
+
+class BorrarTarea(DeleteView):
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tareas' # Le da un nuevo nombre en el for para que no se llame simplemente object
+    success_url = reverse_lazy('lista_tareas') # Al tener exito al borrar la tarea redirigir a lista_tareas

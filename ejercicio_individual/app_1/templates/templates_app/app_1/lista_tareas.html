@@ -1,8 +1,10 @@
 <h1>mi lista de tareas</h1>
+<a href="{% url 'crear_tarea' %}"> añadir tarea</a>
 
 <table>
     <tr>
         <th> Item </th>
+        <th></th>
         <th></th>
     </tr>
 {% for tarea in Tareas %}
@@ -10,6 +12,8 @@
     <td> {{ tarea.titulo}} </td>
     <td>
         <a href="{% url 'detalle_tarea' tarea.id %}">Ver</a>
+        <a href="{% url 'actualizar_tarea' tarea.id %}">Editar</a>
+        <a href="{% url 'borrar_tarea' tarea.id %}">Borrar</a>
     </td>
 </tr>
 {% empty%}

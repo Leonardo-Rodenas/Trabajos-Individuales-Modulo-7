@@ -58,7 +58,7 @@ class Tarea(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
     creada = models.DateTimeField(auto_now_add=True)
-    borrado = models.BooleanField(default=False)
+    # borrado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.titulo
@@ -66,6 +66,6 @@ class Tarea(models.Model):
     class Meta:
         ordering = ['estado']
 
-    def delete(self, *args, **kwargs):
-        self.borrado = True
-        self.save()
+    # def delete(self, *args, **kwargs):
+    #     self.borrado = True
+    #     self.save()
