@@ -1,0 +1,37 @@
+
+{% if request.user.is_authenticated %}
+<p>{{request.user}}</p>
+<a href="{% url 'logout' %}">Logout</a> 
+{% else %}
+<a href="{% url 'login' %}">Login</a> 
+{% endif %}
+
+<hr>
+
+<h1>mi lista de tareas {{color}} </h1>
+<a href="{% url 'crear_tarea' %}"> añadir tarea</a>
+
+<form method="GET">
+    <input type="text" name="search-area" value="{{input_busqueda}}">
+    <input type="submit" value="Buscar">
+</form>
+
+<table>
+    <tr>
+        <th> Item </th>
+        <th></th>
+        <th></th>
+    </tr>
+{% for tarea in Tareas %}
+<tr>
+    <td> {{ tarea.titulo}} </td>
+    <td>
+        <a href="{% url 'detalle_tarea' tarea.id %}">Ver</a>
+        <a href="{% url 'actualizar_tarea' tarea.id %}">Editar</a>
+        <a href="{% url 'borrar_tarea' tarea.id %}">Borrar</a>
+    </td>
+</tr>
+{% empty%}
+<h3>Sin tareas registradas</h3>
+{% endfor %}
+</table>
