@@ -1,9 +1,13 @@
+from typing import Any
 from django.shortcuts import render
-from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from .forms import LoginForm
+#Imports necesarios para el CRUD de tareas
+from .models import Tarea #Importo modelo a usar en las vistas del CRUD
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView 
+from django.urls import reverse_lazy
+#Imports necesarios para el login
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin #Mixim para restringuir vistas a usuarios que no esten logueados
 
 # Create your views here.
 
@@ -11,35 +15,38 @@ from .forms import LoginForm
 def home(request):
     return render(request, 'index.html')
 
-#Renderiza Tareas
-def tareas_usuario(request):
-    return render(request, 'tareas.html')
-
-#Renderiza el Login
-class IngresoView(TemplateView):
+#Clase para hacer el nuevo Login
+class VistaLoginCustom(LoginView):
     template_name = 'registration/login.html'
+    fields = '__all__' # Crea todos los campos para el formulario a partir del modelo
+    redirect_authenticated_user = True # Rediderciona si el login es exitoso
+    
+    def get_success_url(self):
+        return reverse_lazy('lista_tareas') # Lugar al que se es redirecionado si el login es exitoso
 
-    def get(self, request, *args, **kwargs):
-        form = LoginForm()
-        return render(request, self.template_name, {"form": form})
+#Renderiza Tareas
 
-    def post(self, request, *args, **kwargs):
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('lista_tareas')
-            form.add_error('username', 'Credenciales incorrectas')
-            return render(request, self.template_name, {"form": form})
-        else:
-            return render(request, self.template_name, {"form": form})
+#Ver lista Tareas
+class ListaTareas(LoginRequiredMixin, ListView):
+    model = Tarea
+    context_object_name = 'Tareas'
+    template_name = 'templates_app/app_1/lista_tareas.html'
+    ordering = ['fecha_vencimiento']
 
-#Renderiza Logout
-@login_required
-def logout_user(request):
-    logout(request)
-    return redirect('login')
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(usuario=self.request.user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tareas_usuario = self.get_queryset()
+        context['Tareas'] = tareas_usuario
+        context['count'] = tareas_usuario.filter(estado='Pendiente').count()
+        return context
+  
+#Ver Detalle Tareas
+class DetalleTarea(LoginRequiredMixin, DetailView):
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
+    template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
