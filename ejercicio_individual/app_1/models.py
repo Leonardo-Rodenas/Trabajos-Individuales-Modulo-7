@@ -24,30 +24,3 @@ class Tarea(models.Model):
 
     def __str__(self):
         return self.titulo
-
-# class Tarea(models.Model):
-
-#     ESTADO_CHOICES = (
-#         ('Pendiente', 'Pendiente'),
-#         ('En Progreso', 'En progreso'),
-#         ('Completada', 'Completada'),
-#     )
-    
-#     usuario = models.ForeignKey(
-#         User, on_delete=models.CASCADE, null=True, blank=True)
-#     titulo = models.CharField(max_length=200)
-#     descripcion = models.TextField(null=True, blank=True)
-#     estado = models.CharField(
-#         max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
-#     creada = models.DateTimeField(auto_now_add=True)
-#     # borrado = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return self.titulo
-
-#     class Meta:
-#         ordering = ['estado']
-
-#     # def delete(self, *args, **kwargs):
-#     #     self.borrado = True
-#     #     self.save()

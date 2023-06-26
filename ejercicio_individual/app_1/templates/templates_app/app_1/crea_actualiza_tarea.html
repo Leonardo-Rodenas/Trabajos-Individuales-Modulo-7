@@ -1,9 +1,0 @@
-<h3>Creación de Tareas: </h3>
-
-<a href="{% url 'lista_tareas' %}">Volver</a>
-
-<form method="POST" action="">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>

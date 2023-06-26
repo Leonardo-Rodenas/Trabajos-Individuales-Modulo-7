@@ -1,7 +1,0 @@
-<a href="{% url 'lista_tareas' %}">Volver</a>
-
-<form method="POST">
-    {% csrf_token %}
-    <p>¿Estas seguro que quieres borrar esta Tarea? <b>"{{Tareas}}"</b> </p>
-    <input type="submit" value="Delete" />
-</form>
