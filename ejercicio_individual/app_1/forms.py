@@ -1,4 +1,5 @@
 from django import forms
+from .models import Tarea
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Usuario', required=True,
@@ -25,3 +26,12 @@ class LoginForm(forms.Form):
                                    'class': 'form-control'
                                })
                                )
+    
+class TareaForm(forms.ModelForm):
+        
+    class Meta:
+        model = Tarea
+        fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta']
+        widgets = {
+            'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'})
+        }
