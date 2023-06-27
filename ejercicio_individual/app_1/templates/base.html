@@ -50,6 +50,9 @@
                 {% endif%}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link text-white ms-3" href="{% url 'lista_tareas' %}">Ver listado de Tareas</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-danger ms-3" href="{% url 'logout' %}">Cerrar Sesión<svg xmlns="http://www.w3.org/2000/svg"
                             width="20" height="20" fill="red" class="bi bi-x-lg ms-1" viewBox="0 0 16 16">
                             <path

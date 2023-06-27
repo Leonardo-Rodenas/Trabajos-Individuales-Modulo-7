@@ -28,17 +28,17 @@ class VistaLoginCustom(LoginView):
 
 #Ver lista Tareas
 class ListaTareas(LoginRequiredMixin, ListView):
-    model = Tarea
-    context_object_name = 'Tareas'
-    template_name = 'templates_app/app_1/lista_tareas.html'
-    ordering = ['fecha_vencimiento']
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tareas'  # Le da un nuevo nombre en el for para que no se llame simplemente object
+    template_name = 'templates_app/app_1/lista_tareas.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=list, así lo busca por defecto al usar estas clases heredadas)
+    ordering = ['fecha_vencimiento'] # Ordena por fecha vencimiento
 
-    def get_queryset(self):
+    def get_queryset(self): # Acá ordeno las querys para ordenar las tareas 
         queryset = super().get_queryset()
         queryset = queryset.filter(usuario=self.request.user)
         return queryset
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): # Recibe las tareas sólo del usuario logueado y no todas las tareas en la base de datos.
         context = super().get_context_data(**kwargs)
         tareas_usuario = self.get_queryset()
         context['Tareas'] = tareas_usuario

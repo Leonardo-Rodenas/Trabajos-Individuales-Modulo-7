@@ -18,7 +18,7 @@
             <div class="card mb-3">
                 <h1 class="text-center fw-bold mt-3">Lista de Tareas de: {{ request.user }} </h1>
                 <div class="text-center">
-                    <button class="btn btn-primary my-3" href="#">
+                    <button class="btn btn-success my-3" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             fill="currentColor" class="bi bi-plus-circle me-3" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -27,15 +27,20 @@
                         </svg> Añadir tarea
                     </button>
                 </div>
-                {% for tarea in Tareas %}
-                <p class="mx-3"> {{ tarea.titulo }} , vence el: {{ tarea.fecha_vencimiento }} <a class="btn btn-primary"
-                        href="{% url 'detalle_tarea' tarea.id %}">Ver</a></p>
-                {% empty %}
-                <h3>Sin tareas registradas</h3>
-                {% endfor %}
+                <div class="m-3">
+                    {% for tarea in Tareas %}
+                    <div class="mx-3 d-flex justify-content-between align-items-center">
+                        <p class="mb-0">{{ tarea.titulo }}, vence el: {{ tarea.fecha_vencimiento }}</p>
+                        <a class="btn btn-primary my-1" href="{% url 'detalle_tarea' tarea.id %}">Ver</a>
+                    </div>                
+                    {% empty %}
+                    <h3>Sin tareas registradas</h3>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
