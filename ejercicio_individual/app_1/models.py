@@ -21,6 +21,7 @@ class Tarea(models.Model):
     fecha_vencimiento = models.DateField()
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
     etiqueta = models.ManyToManyField(Etiqueta, related_name='tareas')
+    observaciones = models.TextField(blank=True, null=True) # Nuevo atributo solicitado en el trabajo individual
 
     def __str__(self):
         return self.titulo
