@@ -26,7 +26,7 @@ class LoginForm(forms.Form):
                                    'class': 'form-control'
                                })
                                )
-    
+        
 class TareaForm(forms.ModelForm):
         
     class Meta:

@@ -1,10 +1,11 @@
-from typing import Any
 from django.shortcuts import render
 #Imports necesarios para el CRUD de tareas
 from .models import Tarea #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView 
 from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .forms import TareaForm
 #Imports necesarios para el login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin #Mixim para restringuir vistas a usuarios que no esten logueados
@@ -41,8 +42,8 @@ class ListaTareas(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs): # Recibe las tareas sólo del usuario logueado y no todas las tareas en la base de datos.
         context = super().get_context_data(**kwargs)
         tareas_usuario = self.get_queryset()
-        context['Tareas'] = tareas_usuario
-        context['count'] = tareas_usuario.filter(estado='Pendiente').count()
+        context['Tareas'] = tareas_usuario # Tareas de uan persona
+        context['count'] = tareas_usuario.filter(estado='Pendiente').count() # Cuenta las tareas pendientes
         return context
   
 #Ver Detalle Tareas
@@ -50,3 +51,14 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
+    
+#Crear Tareas
+class CrearTarea(LoginRequiredMixin, CreateView):
+    model = Tarea
+    form_class = TareaForm
+    template_name = 'templates_app/app_1/crea_actualiza_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
+    success_url = reverse_lazy('lista_tareas')
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)    

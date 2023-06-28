@@ -18,21 +18,33 @@
             <div class="card mb-3">
                 <h1 class="text-center fw-bold mt-3">Lista de Tareas de: {{ request.user }} </h1>
                 <div class="text-center">
-                    <button class="btn btn-success my-3" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            fill="currentColor" class="bi bi-plus-circle me-3" viewBox="0 0 16 16">
+                    <a class="btn btn-success my-3" href="{% url 'crear_tarea' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-plus-circle me-3" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                             <path
                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg> Añadir tarea
-                    </button>
+                    </a>
+                    <div>
+                        <button class="btn btn-primary my-3" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-tags-fill me-3" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                <path
+                                    d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z" />
+                            </svg>Filtrar etiquetas
+                        </button>
+                    </div>
+
                 </div>
                 <div class="m-3">
                     {% for tarea in Tareas %}
                     <div class="mx-3 d-flex justify-content-between align-items-center">
                         <p class="mb-0">{{ tarea.titulo }}, vence el: {{ tarea.fecha_vencimiento }}</p>
                         <a class="btn btn-primary my-1" href="{% url 'detalle_tarea' tarea.id %}">Ver</a>
-                    </div>                
+                    </div>
                     {% empty %}
                     <h3>Sin tareas registradas</h3>
                     {% endfor %}

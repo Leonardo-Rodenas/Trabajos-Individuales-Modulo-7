@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import VistaLoginCustom, ListaTareas, DetalleTarea
+from .views import VistaLoginCustom, ListaTareas, DetalleTarea, CrearTarea
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
    path('logout/', LogoutView.as_view(next_page='login'), name='logout'), 
    path('lista_tareas/', ListaTareas.as_view(), name='lista_tareas'), 
    path('lista_tareas/tarea_n_<int:pk>/', DetalleTarea.as_view(), name='detalle_tarea'), 
+   path('crear_tarea/', CrearTarea.as_view(), name='crear_tarea'),
 ]
