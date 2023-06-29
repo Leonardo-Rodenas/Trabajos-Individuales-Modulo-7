@@ -1,6 +1,6 @@
 from django.shortcuts import render
 #Imports necesarios para el CRUD de tareas
-from .models import Tarea #Importo modelo a usar en las vistas del CRUD
+from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView 
 from django.urls import reverse_lazy
@@ -32,7 +32,7 @@ class ListaTareas(LoginRequiredMixin, ListView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tareas'  # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/lista_tareas.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=list, así lo busca por defecto al usar estas clases heredadas)
-    ordering = ['fecha_vencimiento'] # Ordena por fecha vencimiento
+    ordering = ['-fecha_vencimiento'] # Ordena por fecha vencimiento
 
     def get_queryset(self): # Acá ordeno las querys para ordenar las tareas 
         queryset = super().get_queryset()
@@ -44,6 +44,8 @@ class ListaTareas(LoginRequiredMixin, ListView):
         tareas_usuario = self.get_queryset()
         context['Tareas'] = tareas_usuario # Tareas de uan persona
         context['count'] = tareas_usuario.filter(estado='Pendiente').count() # Cuenta las tareas pendientes
+        etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
+        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
         return context
   
 #Ver Detalle Tareas
@@ -52,6 +54,12 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
+        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
+        return context
+  
 #Crear Tareas
 class CrearTarea(LoginRequiredMixin, CreateView):
     model = Tarea
