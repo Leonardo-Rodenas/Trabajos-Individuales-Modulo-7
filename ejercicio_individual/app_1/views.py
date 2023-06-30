@@ -42,7 +42,7 @@ class ListaTareas(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs): # Recibe las tareas sólo del usuario logueado y no todas las tareas en la base de datos.
         context = super().get_context_data(**kwargs)
         tareas_usuario = self.get_queryset()
-        context['Tareas'] = tareas_usuario # Tareas de uan persona
+        context['Tareas'] = tareas_usuario # Tareas de una persona
         context['count'] = tareas_usuario.filter(estado='Pendiente').count() # Cuenta las tareas pendientes
         etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
         context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
@@ -53,12 +53,6 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
-        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
-        return context
   
 #Crear Tareas
 class CrearTarea(LoginRequiredMixin, CreateView):
@@ -70,3 +64,11 @@ class CrearTarea(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
+        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
+        estados = Tarea.estado  # Obtener todos los estados del modelo Tarea
+        context['estados'] = estados  # Agregar los estados al contexto
+        return context
