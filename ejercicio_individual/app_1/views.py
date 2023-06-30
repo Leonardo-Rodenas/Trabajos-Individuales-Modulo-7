@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 #Imports necesarios para el CRUD de tareas
 from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
@@ -46,6 +46,17 @@ class ListaTareas(LoginRequiredMixin, ListView):
         context['count'] = tareas_usuario.filter(estado='Pendiente').count() # Cuenta las tareas pendientes
         etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
         context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
+        # Hacer el filtro del select
+        if self.request.GET.get('filtro') == 'buscar':
+            input_busqueda = self.request.GET.get('search-area') or '' #Esto indica que la busqueda puede tener un valor o dejarse ne blanco ('')
+            if input_busqueda:
+                context ['Tareas'] = context ['Tareas'].filter(titulo__icontains = input_busqueda) # Acá busca por título
+            context['input_busqueda'] = input_busqueda 
+        # if self.request.GET.get('filtro') == 'filtrar':
+        #     input_busqueda = self.request.GET.get('etiqueta') or '' #Esto indica que la busqueda puede tener un valor o dejarse ne blanco ('')
+        #     if input_busqueda:
+        #         context ['Tareas'] = context ['Tareas'].filter(titulo__icontains = input_busqueda) # Acá busca por título
+        #     context['input_busqueda'] = input_busqueda 
         return context
   
 #Ver Detalle Tareas
@@ -53,7 +64,7 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
-  
+
 #Crear Tareas
 class CrearTarea(LoginRequiredMixin, CreateView):
     model = Tarea # Modelo a utilizar
@@ -85,14 +96,16 @@ class ActualizarTarea(LoginRequiredMixin, UpdateView):
        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
        estados = Tarea.estado  # Obtener todos los estados del modelo Tarea
        context['estados'] = estados  # Agregar los estados al contexto
-       tarea = self.get_object()  # Obtener la tarea actual
-       context['tarea'] = tarea  # Agregar la tarea al contexto
        return context
     
     def get_success_url(self):
        return reverse_lazy('detalle_tarea', kwargs={'pk': self.object.pk}) # Al tener exito al actualizar la tarea redirigir a detalle_tarea
    
-    
+
+        
+        
+       
+
 
         
     
