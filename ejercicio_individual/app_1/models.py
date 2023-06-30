@@ -18,6 +18,7 @@ class Tarea(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_vencimiento = models.DateField()
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
     etiqueta = models.ManyToManyField(Etiqueta, related_name='tareas')
