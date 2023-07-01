@@ -65,6 +65,18 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     tarea = self.object  # Get the Tarea object
+    #     context['form_initial'] = {
+    #         'titulo': tarea.titulo,
+    #         'descripcion': tarea.descripcion,
+    #         'fecha_vencimiento': tarea.fecha_vencimiento,
+    #         'estado': tarea.estado,
+    #         'etiqueta': tarea.etiqueta
+    #     }
+    #     return context
+
 #Crear Tareas
 class CrearTarea(LoginRequiredMixin, CreateView):
     model = Tarea # Modelo a utilizar
@@ -98,10 +110,16 @@ class ActualizarTarea(LoginRequiredMixin, UpdateView):
        context['estados'] = estados  # Agregar los estados al contexto
        return context
     
+    # def get_initial(self):
+    #     initial = super().get_initial()
+    #     form_initial = self.kwargs.get('form_initial')
+    #     if form_initial:
+    #         initial.update(form_initial)
+    #     return initial
+    
     def get_success_url(self):
        return reverse_lazy('detalle_tarea', kwargs={'pk': self.object.pk}) # Al tener exito al actualizar la tarea redirigir a detalle_tarea
    
-
         
         
        
