@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 #Imports necesarios para el CRUD de tareas
 from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
@@ -24,8 +24,6 @@ class VistaLoginCustom(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('lista_tareas') # Lugar al que se es redirecionado si el login es exitoso
-
-#Renderiza Tareas
 
 #Ver lista Tareas
 class ListaTareas(LoginRequiredMixin, ListView):
@@ -119,11 +117,3 @@ class ActualizarTarea(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
        return reverse_lazy('detalle_tarea', kwargs={'pk': self.object.pk}) # Al tener exito al actualizar la tarea redirigir a detalle_tarea
-   
-        
-        
-       
-
-
-        
-    
