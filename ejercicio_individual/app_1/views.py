@@ -4,7 +4,7 @@ from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRU
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView 
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import TareaForm
 #Imports necesarios para el login
 from django.contrib.auth.views import LoginView
@@ -41,7 +41,7 @@ class ListaTareas(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         tareas_usuario = self.get_queryset()
         context['Tareas'] = tareas_usuario # Tareas de una persona
-        context['count'] = tareas_usuario.filter(estado='Pendiente').count() # Cuenta las tareas pendientes
+        context['count'] = tareas_usuario.filter(estado='Completada').count() # Cuenta las tareas pendientes
         etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
         context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
         # Hacer el filtro del select
@@ -117,3 +117,10 @@ class ActualizarTarea(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
        return reverse_lazy('detalle_tarea', kwargs={'pk': self.object.pk}) # Al tener exito al actualizar la tarea redirigir a detalle_tarea
+   
+#Borrar Tareas
+class BorrarTarea(LoginRequiredMixin, DeleteView):
+    model = Tarea # Modelo a utilizar
+    context_object_name = 'Tareas' # Le da un nuevo nombre en el for para que no se llame simplemente object
+    template_name = 'templates_app/app_1/borrar_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
+    success_url = reverse_lazy('lista_tareas') # Al tener exito al borrar la tarea redirigir a lista_tareas
