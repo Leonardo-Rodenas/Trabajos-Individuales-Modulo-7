@@ -151,24 +151,4 @@
     </div>
 </div>
 
-<div id="tasklist" class="task-items-wrapper">
-    {% for tarea in Tareas %}
-    <div class="card task-wrapper" data-position="{{task.pk}}">
-        <div class="task-title">
-            {% if tarea.estado == 'Completada' %}
-            <div class="task-complete-icon"></div>
-            <i><s><a href="{% url 'actualiza_tarea' tarea.id %}">{{tarea}}</a></s></i> 
-            {% else %}
-            <div class="task-incomplete-icon"></div>
-            <a href="{% url 'actualiza_tarea' tarea.id %}">{{tarea}}</a> 
-            {% endif %}
-        </div>
-        <div class="task-controls">
-            <a class="delete-link" href="{% url 'borrar_tarea' tarea.id %}">&#215;</a>
-            <span class="handle">&nbsp;&#10247;</span>
-        </div>
-    </div>
-    {% empty %}
-    {% endfor %}
-
 {% endblock %}
