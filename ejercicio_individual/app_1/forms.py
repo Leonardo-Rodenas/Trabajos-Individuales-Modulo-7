@@ -35,3 +35,7 @@ class TareaForm(forms.ModelForm):
         widgets = {
             'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'})
         }
+
+class ObservacionForm(forms.Form):
+    # observaciones = forms.TextField()
+    observaciones = forms.CharField(widget=forms.Textarea)

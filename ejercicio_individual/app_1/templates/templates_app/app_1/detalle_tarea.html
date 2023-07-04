@@ -22,13 +22,13 @@
                                 d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                         </svg> Actualizar
                     </a>
-                    <a class="btn btn-success my-3 btn-sm" href="{% url 'lista_tareas' %}">
+                    <!-- <a class="btn btn-success my-3 btn-sm" href="{% url 'lista_tareas' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-file-earmark-check-fill me-2" viewBox="0 0 16 16">
                             <path
                                 d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm1.354 4.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
                         </svg> Completar
-                    </a>
+                    </a> -->
                 </div>
                 <h3 class="text-center"><b>Título: </b>{{Tarea}} </h3>
                 <ul class="m-3">
@@ -59,11 +59,11 @@
                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                         data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            <form method="POST">
-                                <button class="btn btn-primary">Dejar Observación</button>
-                                <textarea class="form-control" name="descripcion" rows="2" required id="id_descripcion"
-                                    placeholder="Agrega una observación a tu tarea">{{ Tarea.observacion }}</textarea>
-                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                    {{ observaciones_form.as_p }}
+                                    <button type="submit">Guardar</button>
+                                </form>
                         </div>
                     </div>
                 </div>
