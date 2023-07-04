@@ -8,8 +8,8 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card mb-3">
-                <a href="{% url 'lista_tareas' %}" class="text-decoration-none"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="blue"
-                        class="bi bi-arrow-left m-2" viewBox="0 0 16 16">
+                <a href="{% url 'lista_tareas' %}" class="text-decoration-none"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="30" height="30" fill="blue" class="bi bi-arrow-left m-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg> Volver al Listado de Tareas</a>
@@ -45,5 +45,30 @@
         </div>
     </div>
 </div>
-
+<div class="container mb-3 rounded">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item ">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <b>Click aquí para desplegar pantalla de Observaciones:</b>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form method="POST">
+                                <button class="btn btn-primary">Dejar Observación</button>
+                                <textarea class="form-control" name="descripcion" rows="2" required id="id_descripcion"
+                                    placeholder="Agrega una observación a tu tarea">{{ Tarea.observacion }}</textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

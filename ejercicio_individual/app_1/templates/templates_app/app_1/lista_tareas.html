@@ -16,7 +16,7 @@
         <div class="col-sm-6">
             <div class="card mb-3 mt-4">
                 <h1 class="text-center fw-bold mt-3">Lista de Tareas de: {{ request.user }} </h1>
-                <h4 class="text-center" style="margin:0">!Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} completada{{ count|pluralize:"s" }}¡</h4>
+                <h4 class="text-center" style="margin:0">¡Tienes <i>{{count}}</i> tarea{{ count|pluralize:"s" }} completada{{ count|pluralize:"s" }}!</h4>
                 <div class="text-center">
                     <a class="btn btn-success btn-block  btn-sm my-3" href="{% url 'crear_tarea' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 #Imports necesarios para el CRUD de tareas
 from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
@@ -30,7 +30,7 @@ class ListaTareas(LoginRequiredMixin, ListView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tareas'  # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/lista_tareas.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=list, así lo busca por defecto al usar estas clases heredadas)
-    ordering = ['-fecha_creacion'] # Ordena por fecha creación (más nueva arriba, más antigua abajo)
+    ordering = ['fecha_vencimiento'] # Ordena por fecha creación (más nueva arriba, más antigua abajo)
 
     def get_queryset(self): # Acá ordeno las querys para ordenar las tareas y filtrar para obtener sólo las tareas del usuario logueado
         queryset = super().get_queryset()
@@ -62,6 +62,12 @@ class DetalleTarea(LoginRequiredMixin, DetailView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tarea' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/detalle_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
+
+    def completar_tarea(request, tarea_id):
+        tarea = get_object_or_404(Tarea, id=tarea_id)
+        tarea.estado = 'Completada'
+        tarea.save()
+        return redirect('lista_tareas')
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -124,3 +130,9 @@ class BorrarTarea(LoginRequiredMixin, DeleteView):
     context_object_name = 'Tareas' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/borrar_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
     success_url = reverse_lazy('lista_tareas') # Al tener exito al borrar la tarea redirigir a lista_tareas
+    
+# def completar_tarea(request, tarea_id):
+#     tarea = Tarea.objects.get(id=tarea_id)
+#     tarea.estado = 'Completada'
+#     tarea.save()
+#     return redirect('lista_tareas')
