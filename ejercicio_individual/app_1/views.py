@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import TareaForm, ObservacionForm
 from django.views.generic.edit import FormMixin
+from django.views.generic import TemplateView
 #Imports necesarios para el login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin #Mixim para restringuir vistas a usuarios que no esten logueados
@@ -161,3 +162,11 @@ class BorrarTarea(LoginRequiredMixin, DeleteView):
     context_object_name = 'Tareas' # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/borrar_tarea.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=detail, así lo busca por defecto al usar estas clases heredadas)
     success_url = reverse_lazy('lista_tareas') # Al tener exito al borrar la tarea redirigir a lista_tareas
+
+class CambiaEstado (TemplateView):
+    
+    def post(self, request):
+        tarea = Tarea.objects.get(id = request.POST.get('id'))
+        tarea.estado = 'Completada'
+        tarea.save()
+        return redirect('lista_tareas')

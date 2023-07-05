@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import VistaLoginCustom, ListaTareas, DetalleTarea, CrearTarea, ActualizarTarea, BorrarTarea
+from .views import VistaLoginCustom, ListaTareas, DetalleTarea, CrearTarea, ActualizarTarea, BorrarTarea, CambiaEstado
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
    path('crear_tarea/', CrearTarea.as_view(), name='crear_tarea'),
    path('actualiza_tarea/tarea_n_<int:pk>/', ActualizarTarea.as_view(), name='actualiza_tarea'), 
    path('borrar_tarea/tarea_n_<int:pk>/', BorrarTarea.as_view(), name='borrar_tarea'),
+   path('terminar_tarea/', CambiaEstado.as_view(), name='completar'),
 ]
