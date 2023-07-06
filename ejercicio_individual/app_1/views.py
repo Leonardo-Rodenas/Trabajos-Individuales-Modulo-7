@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 #Imports necesarios para el CRUD de tareas
-from .models import Tarea, Etiqueta #Importo modelo a usar en las vistas del CRUD
+from .models import Tarea, Etiqueta, Prioridad #Importo modelo a usar en las vistas del CRUD
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView 
 from django.urls import reverse_lazy
@@ -128,6 +128,8 @@ class CrearTarea(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs) # Obtener el contexto
         etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
         context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
+        prioridades = Prioridad.objects.all()  # Obtener todas las prioridades
+        context['prioridad'] = prioridades  # Agregar las prioridades al contexto
         estados = Tarea.estado  # Obtener todos los estados del modelo Tarea
         context['estados'] = estados  # Agregar los estados al contexto
         return context
@@ -142,6 +144,8 @@ class ActualizarTarea(LoginRequiredMixin, UpdateView):
        context = super().get_context_data(**kwargs) # Obtener el contexto
        etiquetas = Etiqueta.objects.all()  # Obtener todas las etiquetas
        context['etiquetas'] = etiquetas  # Agregar las etiquetas al contexto
+       prioridades = Prioridad.objects.all()  # Obtener todas las prioridades
+       context['prioridad'] = prioridades  # Agregar las prioridades al contexto
        estados = Tarea.estado  # Obtener todos los estados del modelo Tarea
        context['estados'] = estados  # Agregar los estados al contexto
        return context

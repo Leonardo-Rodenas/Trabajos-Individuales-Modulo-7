@@ -75,6 +75,13 @@
                     <div class="card mb-2 bg-secondary">
                         <div class="card-header">
                             <i><s><b>Tarea creada el: </b>{{ tarea.fecha_creacion }} </i></s>
+                            <h4>Prioridad: </h4><h4><span class=" 
+                                {% if tarea.prioridad.nombre == 'Baja' %}badge rounded-pill text-dark  text-bg-secondary{% endif %}
+                                {% if tarea.prioridad.nombre == 'Media' %}badge rounded-pill text-dark text-bg-secondary{% endif %}
+                                {% if tarea.prioridad.nombre == 'Alta' %}badge rounded-pill text-dark text-bg-secondary{% endif %}
+                                {% if tarea.prioridad.nombre == 'Urgente' %}badge rounded-pill text-dark text-bg-secondary{% endif %}">
+                                {{tarea.prioridad}}</span>
+                            </h4>
                             <div class="mx-3 d-flex justify-content-between align-items-center">
                                 <a class="btn btn-outline-light btn-sm my-1 ms-auto me-2"
                                     href="{% url 'detalle_tarea' tarea.id %}">
@@ -110,6 +117,13 @@
                     <div class="card mb-2">
                         <div class="card-header">
                             <b>Tarea creada el: </b>{{ tarea.fecha_creacion }}
+                            <h4>Prioridad: </h4><h4><span class=" 
+                                {% if tarea.prioridad.nombre == 'Baja' %}badge rounded-pill text-bg-primary{% endif %}
+                                {% if tarea.prioridad.nombre == 'Media' %}badge rounded-pill text-bg-info{% endif %}
+                                {% if tarea.prioridad.nombre == 'Alta' %}badge rounded-pill text-bg-warning{% endif %}
+                                {% if tarea.prioridad.nombre == 'Urgente' %}badge rounded-pill text-bg-danger{% endif %}">
+                                {{tarea.prioridad}}</span>
+                            </h4>
                             <div class="mx-3 d-flex justify-content-between align-items-center">
                                 <a class="btn btn-primary btn-sm my-1 ms-auto me-2"
                                     href="{% url 'detalle_tarea' tarea.id %}">

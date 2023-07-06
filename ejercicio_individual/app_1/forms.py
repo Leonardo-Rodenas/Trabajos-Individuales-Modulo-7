@@ -31,7 +31,7 @@ class TareaForm(forms.ModelForm):
         
     class Meta:
         model = Tarea
-        fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta']
+        fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta', 'prioridad']
         widgets = {
             'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'})
         }
