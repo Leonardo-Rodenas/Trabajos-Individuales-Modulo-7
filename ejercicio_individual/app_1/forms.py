@@ -1,5 +1,6 @@
 from django import forms
 from .models import Tarea
+from django.contrib.auth.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Usuario', required=True,
@@ -26,12 +27,19 @@ class LoginForm(forms.Form):
                                    'class': 'form-control'
                                })
                                )
-    
-class TareaForm(forms.ModelForm):
         
+class TareaForm(forms.ModelForm):
+    destinatario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    
     class Meta:
         model = Tarea
-        fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta']
+        fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta', 'prioridad', 'destinatario']
         widgets = {
             'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'})
         }
+
+class ObservacionForm(forms.Form):
+    observaciones = forms.CharField(
+        label='',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}) 
+    )

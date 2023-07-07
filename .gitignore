@@ -1,7 +1,13 @@
 .entorno_individual/
 .env
 
-# Archivos de caché de Python
+# Archivos de cache de Django
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pyzw
+*.pyc
+*.pyc

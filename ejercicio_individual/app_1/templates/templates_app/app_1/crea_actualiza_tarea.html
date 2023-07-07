@@ -1,9 +1,110 @@
-<h3>Creación de Tareas: </h3>
+{% extends 'base.html' %}
+{% load static %}
 
-<a href="{% url 'lista_tareas' %}">Volver</a>
+{% block titulo %} Mis Tareapps - Tareas de {{ request.user }} {% endblock %}
 
-<form method="POST" action="">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>
+{% block contenido %}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mb-3">
+                <a href="{% url 'lista_tareas' %}" class="text-decoration-none"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="30" height="30" fill="blue" class="bi bi-arrow-left m-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                    </svg> Volver al Listado de Tareas</a>
+                <div>
+                    <h3 class="text-center fw-bold mb-4">Creación de Tareas </h3>
+                    <form class="m-4" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk_tarea_creada" id="id_pk_tarea_creada">
+                        <p>
+                            <label class="form-label text-start fw-bold" for="id_titulo">Titulo de tu Tarea:</label>
+                            <input class="form-control" type="text" name="titulo" maxlength="100" required
+                                id="id_titulo" placeholder="Agrega un título a tu tarea" value="{{tarea.titulo}}">
+                        </p>
+                        <p>
+                            <label class="form-label text-start fw-bold" for="id_descripcion">Descripción de la
+                                Tarea:</label>
+                            <textarea class="form-control" name="descripcion" rows="2" required id="id_descripcion"
+                                placeholder="Agrega una descripción a tu tarea">{{ tarea.descripcion }}</textarea>
+                        </p>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>
+                                    <label class="form-label text-start fw-bold" for="prioridad">Prioridad de la
+                                        Tarea:</label>
+                                    <select class="form-select" name="prioridad" id="prioridad">
+                                        <option value="1" {% if Prioridad.nombre == 'Baja' %} selected {% endif %}>Baja</option>
+                                        <option value="2" {% if Prioridad.nombre == 'Media' %} selected {% endif %}>Media</option>
+                                        <option value="3" {% if Prioridad.nombre == 'Alta' %} selected {% endif %}>Alta</option>
+                                        <option value="4" {% if Prioridad.nombre == 'Urgente' %} selected {% endif %}>Urgente</option>
+                                    </select>
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>
+                                    <label class="form-label text-start fw-bold" for="id_estado">Estado de la
+                                        Tarea:</label>
+                                    <select class="form-select" name="estado" id="id_estado">
+                                        <option value="Pendiente" {% if tarea.estado == 'Pendiente' %} selected {% endif %}>Pendiente</option>
+                                        <option value="En Progreso" {% if tarea.estado == 'En Progreso' %} selected {% endif %}>En Progreso</option>
+                                        <option value="Completada" {% if tarea.estado == 'Completada' %} selected {% endif %}>Completada</option>
+                                    </select>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"> 
+                                <p>
+                                    <div>
+                                        <label class="form-label text-start " for="{{ form.destinatario.id_for_label }}"><b>Destinatario:</b></label>
+                                        {{ form.destinatario }}
+                                    </div>
+                                    </p>
+                            </div> 
+                            <div class="col-sm-6"> 
+                                <p>
+                                    <div>
+                                        <label class="form-label fw-bold" for="id_fecha_vencimiento">Fecha vencimiento de la
+                                            Tarea:</label>
+                                        <input class="form-control" type="date" name="fecha_vencimiento" required
+                                            id="id_fecha_vencimiento" value="{{ tarea.fecha_vencimiento|date:'Y-m-d' }}">
+                                    </div>
+                                    </p>
+                            </div> 
+                        </div>
+                        <p>
+                            <label class="form-label text-start fw-bold" for="id_etiqueta">Escoje una o varias
+                                Etiquetas (mantén presionado Ctrl):</label>
+                            <select class="form-select" aria-label="Default select example" name="etiqueta" required
+                                id="id_etiqueta" multiple value="{{tarea.etiqueta}}">
+                                {% for etiqueta in etiquetas %}
+                                <option value="{{ etiqueta.id }}">{{ etiqueta.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" type="submit" value="Crear Tarea"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-list-task me-3 " viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
+                                    <path
+                                        d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />
+                                    <path fill-rule="evenodd"
+                                        d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
+                                </svg>Guardar Tarea</button>
+                        </div>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

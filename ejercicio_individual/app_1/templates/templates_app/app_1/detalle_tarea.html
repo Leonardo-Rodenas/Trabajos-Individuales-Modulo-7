@@ -1,1 +1,89 @@
-<h1>Tarea: {{Tarea}} </h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Mis Tareapps - Tareas de {{ request.user }} {% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mb-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 text-center">
+                            <a href="{% url 'lista_tareas' %}" class="text-decoration-none"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="30" height="30" fill="blue" class="bi bi-arrow-left m-2" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                            </svg> Volver al Listado de Tareas</a>
+                        </div>
+                        <div class="col-sm-6 col-md-6 text-center mt-2">
+                            <h4>Prioridad: </h4><h4><span class="
+                                {% if Tarea.prioridad.nombre == 'Baja' %}badge rounded-pill text-bg-primary{% endif %}
+                                {% if Tarea.prioridad.nombre == 'Media' %}badge rounded-pill text-bg-info{% endif %}
+                                {% if Tarea.prioridad.nombre == 'Alta' %}badge rounded-pill text-bg-warning{% endif %}
+                                {% if Tarea.prioridad.nombre == 'Urgente' %}badge rounded-pill text-bg-danger{% endif %}">
+                                {{Tarea.prioridad}}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-primary my-3 btn-sm" href="{% url 'actualiza_tarea' Tarea.id %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-pencil-fill me-2" viewBox="0 0 16 16">
+                            <path
+                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                        </svg> Actualizar
+                    </a>
+                    <form method="post" action="{% url 'completar' %}" class="mb-3">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{Tarea.id}}" name="id">
+                        <button class="btn btn-primary btn-sm bg-success" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all me-2" viewBox="0 0 16 16">
+                            <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+                          </svg>Terminar</button>  
+                    </form>
+                </div>
+                <h3 class="text-center"><b>Título: </b>{{Tarea}} </h3>
+                <ul class="m-3">
+                    <li><b>Descripción: </b>{{Tarea.descripcion}}</li>
+                    <li><b>Fecha de Vencimiento: </b>{{Tarea.fecha_vencimiento}}</li>
+                    <li><b>Estado: </b>{{Tarea.estado}}</li>
+                    <li><b> Etiquetas:</b>
+                        {% for etiqueta in Tarea.etiqueta.all %}
+                        <span class="badge rounded-pill bg-primary badge-lg me-2">{{ etiqueta.nombre }}</span>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mb-3 rounded">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item ">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <b>Click aquí para desplegar pantalla de Observaciones:</b>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form class="text-center" method="post">
+                                {% csrf_token %}
+                                {{ observaciones_form.as_p }}
+                                <button class="btn btn-primary btn-sm" type="submit">Guardar Observación</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
