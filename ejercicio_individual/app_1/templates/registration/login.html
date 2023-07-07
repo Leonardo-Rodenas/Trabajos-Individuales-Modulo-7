@@ -5,51 +5,59 @@
 
 {% block contenido %}
 
-<div class="container">
+<div class="container mx-5">
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card bg-transparent">
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="card">
-                            <div class="card-body" style="font-family: 'Roboto Condensed', sans-serif;">
-                                <a class="nav-link ms-3 fs-3 text-center fw-bold mb-2" style="color: black;"
-                                    href="#">Iniciar Sesión<svg xmlns="http://www.w3.org/2000/svg" width="35"
-                                        height="35" fill="green" class="bi bi-check-lg ms-1" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                    </svg></a>
-                                <h6 class="card-subtitle mb-2 text-body-secondary text-center mb-4">¡¡¡ Ingresa con tu
-                                    usuario y contraseña en segundos!!!
-                                    !</h6>
-                                <div class="form-group">
-                                    <label class="fw-bold" for="id_username">Usuario</label>
-                                    <input type="text" class="form-control" id="id_username" name="username"
-                                        placeholder="Usuario" required>
-                                    {% comment %} {{ form.username }} {% endcomment %}
-                                </div>
-                                <div class="form-group mt-2">
-                                    <label class="fw-bold" for="id_password">Contraseña</label>
-                                    <input type="password" class="form-control" id="id_password" name="password"
-                                        placeholder="Contraseña" required>
-                                    {% comment %} {{ form.password }} {% endcomment %}
-                                </div>
-                                {% if form.errors %}
-                                <div class="alert alert-danger mt-3" role="alert">
-                                    <h4>Errores</h4>
-                                    {{ form.errors }}
-                                </div>
-                                {% endif %}
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-outline-primary mt-3">Ingresar</button>
-                                </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="card border-0 bg-transparent">
+                <div class="card-body bg-transparent">
+                    <img class="mx-auto d-block img-fluid" src="{% static 'img/img_login.png' %}" alt="img_login">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="card-body">
+                <!--INICIO LOGIN FORM-->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-body" style="font-family: 'Roboto Condensed', sans-serif;">
+                            <a class="nav-link ms-3 fs-3 text-center fw-bold mb-2" style="color: black;"
+                                href="#">Iniciar Sesión<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+                                    fill="green" class="bi bi-check-lg ms-1" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                </svg></a>
+                            <h6 class="card-subtitle mb-2 text-body-secondary text-center mb-4">¡¡¡ Ingresa con tu
+                                usuario y contraseña en segundos!!!
+                                !</h6>
+                            <div class="form-group">
+                                <label class="fw-bold" for="id_username">Usuario</label>
+                                <input type="text" class="form-control" id="id_username" name="username"
+                                    placeholder="Usuario" required>
+                                {% comment %} {{ form.username }} {% endcomment %}
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="fw-bold" for="id_password">Contraseña</label>
+                                <input type="password" class="form-control" id="id_password" name="password"
+                                    placeholder="Contraseña" required>
+                                {% comment %} {{ form.password }} {% endcomment %}
+                            </div>
+                            {% if form.errors %}
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <h4>Errores</h4>
+                                {{ form.errors }}
+                            </div>
+                            {% endif %}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-outline-primary mt-3">Ingresar</button>
                             </div>
                         </div>
-                    </form>
-                    <div class="text-center text-white mt-3" style="font-family: 'Roboto Condensed', sans-serif;">
-                        ¿Aún no tienes una cuenta? Crea una en <a class="text-warning" href="{% url 'registro' %}">este enlace</a>
                     </div>
+                </form>
+                <!--FIN LOGIN FORM-->
+                <div class="text-center text-white mt-3 mb-3" style="font-family: 'Roboto Condensed', sans-serif;">
+                    ¿Aún no tienes una cuenta? Crea una en <a class="text-warning" href="{% url 'registro' %}">este
+                        enlace</a>
                 </div>
             </div>
         </div>
