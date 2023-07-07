@@ -29,7 +29,8 @@ class LoginForm(forms.Form):
                                )
         
 class TareaForm(forms.ModelForm):
-    destinatario = forms.ModelChoiceField(queryset=User.objects.all())
+    destinatario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    
     class Meta:
         model = Tarea
         fields = ['titulo', 'descripcion', 'estado', 'fecha_vencimiento', 'etiqueta', 'prioridad', 'destinatario']
@@ -38,7 +39,6 @@ class TareaForm(forms.ModelForm):
         }
 
 class ObservacionForm(forms.Form):
-    # observaciones = forms.TextField()
     observaciones = forms.CharField(
         label='',
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}) 

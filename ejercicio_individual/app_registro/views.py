@@ -27,5 +27,5 @@ def registrar_usuario(request):
         # Redirecciona a una página de éxito o cualquier otra página deseada
         return redirect('login')
 
-    # Si es una solicitud GET, muestra el formulario de registro con el select de grupos
+    # Si es una solicitud GET, muestra el formulario de registro 
     return render(request, 'registro.html')
