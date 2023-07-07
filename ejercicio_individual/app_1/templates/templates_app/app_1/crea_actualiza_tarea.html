@@ -56,14 +56,26 @@
                                 </p>
                             </div>
                         </div>
-                        <p>
-                        <div>
-                            <label class="form-label fw-bold" for="id_fecha_vencimiento">Fecha vencimiento de la
-                                Tarea:</label>
-                            <input class="form-control" type="date" name="fecha_vencimiento" required
-                                id="id_fecha_vencimiento" value="{{ tarea.fecha_vencimiento|date:'Y-m-d' }}">
+                        <div class="row">
+                            <div class="col-sm-6"> 
+                                <p>
+                                    <div>
+                                        <label for="{{ form.destinatario.id_for_label }}"><b>Destinatario:</b></label>
+                                        {{ form.destinatario }}
+                                    </div>
+                                    </p>
+                            </div> 
+                            <div class="col-sm-6"> 
+                                <p>
+                                    <div>
+                                        <label class="form-label fw-bold" for="id_fecha_vencimiento">Fecha vencimiento de la
+                                            Tarea:</label>
+                                        <input class="form-control" type="date" name="fecha_vencimiento" required
+                                            id="id_fecha_vencimiento" value="{{ tarea.fecha_vencimiento|date:'Y-m-d' }}">
+                                    </div>
+                                    </p>
+                            </div> 
                         </div>
-                        </p>
                         <p>
                             <label class="form-label text-start fw-bold" for="id_etiqueta">Escoje una o varias
                                 Etiquetas (mantén presionado Ctrl):</label>

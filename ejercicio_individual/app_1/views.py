@@ -33,7 +33,7 @@ class ListaTareas(LoginRequiredMixin, ListView):
     model = Tarea # Modelo a utilizar
     context_object_name = 'Tareas'  # Le da un nuevo nombre en el for para que no se llame simplemente object
     template_name = 'templates_app/app_1/lista_tareas.html' # modifica la ruta el template para que no sea necesario que se llame tarea_detail.html (prefijo = modelo, sufijo=list, así lo busca por defecto al usar estas clases heredadas)
-    ordering = ['fecha_vencimiento', 'fecha_creacion'] # Ordena por fecha creación (más nueva arriba, más antigua abajo)
+    ordering = ['-fecha_creacion'] # Ordena por fecha creación (más nueva arriba, más antigua abajo)
 
     def get_queryset(self): # Acá ordeno las querys para ordenar las tareas y filtrar para obtener sólo las tareas del usuario logueado
         queryset = super().get_queryset()
@@ -122,7 +122,8 @@ class CrearTarea(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.usuario = self.request.user # Generar instancia del formulario y si es válido, etonces se puede crear la tarea, de lo contrario si falta algo no se creará
-        return super().form_valid(form)    
+        form.instance.usuario = form.cleaned_data['destinatario']
+        return super().form_valid(form)     
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) # Obtener el contexto

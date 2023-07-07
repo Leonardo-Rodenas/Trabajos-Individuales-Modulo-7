@@ -23,10 +23,10 @@ class Tarea(models.Model):
     ESTADO_CHOICES = (
         ('Pendiente', 'Pendiente'),
         ('En Progreso', 'En progreso'),
-        ('Completada', 'Completada'),
+        ('Completada', 'Completada'), 
     )
 
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE) 
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
